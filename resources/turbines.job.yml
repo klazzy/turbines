@@ -1,0 +1,29 @@
+# The file trigger job for turbines.
+resources:
+  jobs:
+    turbines_job:
+      name: turbines_job
+
+      max_concurrent_runs: 4
+      queue:
+        enabled: true
+
+      trigger:
+        pause_status: UNPAUSED
+        file_arrival:
+          url: ${var.landing_location}
+
+      email_notifications:
+        on_failure:
+          - klaczynski@gmail.com
+
+      tasks:
+        - task_key: refresh_dq_rules
+          notebook_task:
+            notebook_path: ../src/turbines/tasks/refresh_dq_rules.ipynb
+        
+        - task_key: refresh_pipeline
+          depends_on:
+            - task_key: refresh_dq_rules
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.turbines_pipeline.id}
