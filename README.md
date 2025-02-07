@@ -14,6 +14,7 @@ This guide assumes you have _python_, _poetry_ and _databricks-cli_ installed, a
     ```databricks bundle validate```
 5. Deploy the bundle to the databricks workspace by running\
     ```databricks bundle deploy```
+6. Drop telemetry files into the landing location to trigger a pipeline update
 
 ## :mag: Assumptions
 
@@ -21,7 +22,7 @@ This guide assumes you have _python_, _poetry_ and _databricks-cli_ installed, a
 
 ## :factory: Pipeline
 
-The pipelines is implemented using Delta Live Tables to ingest and transform the turbine data.
+The pipeline is implemented using Delta Live Tables to ingest and transform the turbine data.
 
 * DLT provides a simple declarative definition of a pipeline
 * Orchestratates the defined streaming "flow"
@@ -49,7 +50,7 @@ A set of rules is defined in a table (created in the [refresh_dq_rules](src/turb
 Databricks asset bundles make workflows and pipelines (and their source) consistently deployable to multiple target workspaces. This bundle was generated using the default python template and uses poetry for package management.
 
 * **`resources/`** - contains the YAML definition of our job and pipeline
-* **`src/`** - contains the source code and notebooks underppining the pipeline
+* **`src/`** - contains the source code and notebooks underpinning the pipeline
 * **`tests/`** - unit test definitions
 * **`databricks.yml`** - the top-level definition of the bundle
 * **`poetry.lock`** - package dependency information
@@ -64,7 +65,7 @@ Transformation and other logic been kept separate from the DLT streaming table d
 
 ### Pipeline tests
 
-Full or part test of the actual pipeline are perhaps the most important tests for production pipelines. While not implemented here, the following is a recommended databaricks pattern for deploying test pipelines and switching between produciton and tests inputs/outputs.
+Full or part testing of the actual pipeline are perhaps the most important tests for production pipelines. While not implemented here, the following is a pattern recommended by databricks for deploying test pipelines and switching between production and test inputs/outputs.
 
 ![](dlt_unit_testing.png)
 
