@@ -1,0 +1,17 @@
+# The pipeline for turbines
+resources:
+  pipelines:
+    turbines_pipeline:
+      name: turbines_pipeline
+      catalog: workspace
+      target: turbines_${bundle.target}
+      serverless: true
+      channel: preview
+      libraries:
+        - notebook:
+            path: ../src/turbines/dlt/turbines_dlt_pipeline.ipynb
+
+      configuration:
+        bundle.sourcePath: ${workspace.file_path}/src
+        landing.path: ${var.landing_location}
+        expectations.table: ${var.rule_table}

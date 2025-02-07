@@ -1,0 +1,33 @@
+# Databricks asset bundle definition for turbines
+bundle:
+  name: turbines
+  uuid: bb192396-ec65-4a93-9638-1ba979964eda
+
+include:
+  - resources/*.yml
+
+variables:
+  catalog:
+    type: string
+    description: The Unity Catalog catalog the pipelines reads to/writes from
+    default: workspace
+  schema:
+    type: string
+    description: The schema the pipeline targets
+    default: turbines
+  rule_table:
+    type: string
+    description: The table containing DQ rules
+    default: ${var.catalog}.${var.schema}.expectations
+  landing_location:
+    type: string
+    description: The location of the files being ingested. This should be an external volume
+    default: /Volumes/${var.catalog}/${var.schema}/landing/
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-3d7a78a4-50e5.cloud.databricks.com
+
